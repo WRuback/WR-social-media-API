@@ -1,5 +1,6 @@
 const express = require('express');
 const db = require('./config/connection.js');
+const routes = require('./routes/index.js');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -7,9 +8,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/', function (req, res){
-    res.status(200).json({testing: "The basic setup works."});
-});
+app.use(routes);
 
 db.once('open', function () {
     app.listen(PORT, function(){
