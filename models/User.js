@@ -1,28 +1,28 @@
-const { Schema, Types, model } = require('mongoose');
+const { Schema, model } = require('mongoose');
 
 const userSchema = new Schema(
     {
         username: {
             type: String,
-            unique: true,
+            unique: [true, "Username Already Used"],
             required: true,
             trim: true
         },
         email: {
             type: String,
-            unique: true,
+            unique: [true, "Email Already Used"],
             required: true,
             match: /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
         },
         thoughts: [
             {
-                type: Types.ObjectId,
+                type: Schema.Types.ObjectId,
                 ref: 'thought',
             },
         ],
         friends: [
             {
-                type: Types.ObjectId,
+                type: Schema.Types.ObjectId,
                 ref: 'user',
             },
         ],
