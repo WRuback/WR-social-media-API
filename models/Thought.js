@@ -8,7 +8,7 @@ const reactionSchema = new Schema(
     {
         reactionId: {
             type: Schema.Types.ObjectId,
-            default: new Types.ObjectId()
+            default: () => new Types.ObjectId()
         },
         reactionBody: {
             type: String,
@@ -24,7 +24,8 @@ const reactionSchema = new Schema(
             default: Date.now,
             get: formatDate 
         }
-    }
+    },
+    { _id : false }
 )
 
 const thoughtSchema = new Schema(

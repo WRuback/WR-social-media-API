@@ -12,7 +12,7 @@ module.exports = {
     },
     async getSingleUserByID(req, res) {
         try {
-            const userData = await User.findOne({ _id: req.params.id });
+            const userData = await User.findOne({ _id: req.params.id }).populate('thoughts').populate('friends');
             userData ? res.status(200).json(userData) : res.status(500).json("Could not find Data");
         } catch (err) {
             res.status(500).json("Could not find Data");
@@ -50,7 +50,12 @@ module.exports = {
     async deleteUserByID(req, res) {
         try {
             const removedUserData = await User.findOneAndDelete({ _id: req.params.id });
-            removedUserData ? res.status(200).json("The User has been deleted") : res.status(500).json("Could not find user to update.");
+            if (removedUserData) {
+                await Thought.deleteMany({ _id: { $in: removedUserData.thoughts } });
+                res.status(200).json("The User and their thoughts have been deleted");
+            } else {
+                res.status(500).json("Could not find user to update.");
+            }
         } catch (err) {
             res.status(500).json("Could not find user to update.");
         }
