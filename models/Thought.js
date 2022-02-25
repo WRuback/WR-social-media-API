@@ -1,13 +1,16 @@
 const { Schema, Types, model } = require('mongoose');
 
-function formatDate(time){
-    return new Date(time).toLocaleDateString();
+// Used to format our date calls into a readable format.
+function formatDate(time) {
+    return new Date(time).toLocaleString();
 }
 
+// Creates a reaction schema to be used within the Thought Schema.
 const reactionSchema = new Schema(
     {
         reactionId: {
             type: Schema.Types.ObjectId,
+            // Uses a anonymous function, so every instance creates a new ID.
             default: () => new Types.ObjectId()
         },
         reactionBody: {
@@ -22,12 +25,20 @@ const reactionSchema = new Schema(
         createdAt: {
             type: Date,
             default: Date.now,
-            get: formatDate 
+            // Uses the formatDate function to change the data display when acquired.
+            get: formatDate
         }
     },
-    { _id : false }
+    {
+        toJSON: {
+            getters: true
+        }, 
+        // This stops the schema from making it's own ID.
+        _id: false
+    }
 )
 
+// Sets up the schema for the thought data.
 const thoughtSchema = new Schema(
     {
         thoughtText: {
@@ -39,26 +50,31 @@ const thoughtSchema = new Schema(
         createdAt: {
             type: Date,
             default: Date.now,
-            get: formatDate 
+            // Uses the formatDate function to change the data display when acquired.
+            get: formatDate
         },
         username: {
             type: String,
             required: true
         },
+        // Set the reaction schema as an object.
         reactions: [reactionSchema]
     },
     {
         toJSON: {
-            virtuals: true
+            virtuals: true,
+            getters: true
         },
         id: false
     }
 )
 
-thoughtSchema.virtual('reactionCount').get(function(){
+// Creates a virtual to display the amount of reactions on query calls..
+thoughtSchema.virtual('reactionCount').get(function () {
     return this.reactions.length;
 });
 
+// Creates the model.
 const Thought = model('thought', thoughtSchema);
 
 module.exports = Thought;

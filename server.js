@@ -10,6 +10,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(routes);
 
+// Sets the port to only activate after the database is connected too.
 db.once('open', function () {
     app.listen(PORT, function(){
         console.log(`API server running on port ${PORT}! You can access the API at http://localhost:3001/`);
