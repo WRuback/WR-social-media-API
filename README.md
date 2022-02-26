@@ -44,7 +44,7 @@ You can do the following API calls once this is operational:
 - `/api/thoughts/:thoughtId/reactions` - **POST** - Adds a reaction to the list of reactions of the thought (based on ID). In the body, it must include `username`, and `reactionBody`.
 - `/api/thoughts/:thoughtId/reactions` - **DELETE** - removes a reaction to the list of reactions of the thought (based on ID). In the body, it must include the `reactionId`.
 
-[A video demonstration can be found here](https://drive.google.com/file/d/1dij-eAf0csrAjWqcLpSTDXthPaEo86-e/view?usp=sharing).
+[A video demonstration can be found here](https://drive.google.com/file/d/1-Be_g-EMaizacrj6gO4ZxXb08dTomf4Y/view?usp=sharing).
 
 ## Contributing
 
